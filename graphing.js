@@ -42,9 +42,11 @@ function init(parentObject, width, height) {
 		var graphObjects = new Array();
 		var graph = new graphingClass("Bar", graphObjects);
 		var objectOne = new graphingObjectClass("Test", "#FF0000", 30);
-	  var objectTwo = new graphingObjectClass("Test2","#0000FF", 25);
+	  var objectTwo = new graphingObjectClass("Test2","#0000FF", 15);
+		var objectThree = new graphingObjectClass("Test3","#00FF00", 60);
 		graphObjects.push(objectOne);
 		graphObjects.push(objectTwo);
+		graphObjects.push(objectThree);
 		drawGraph(canvas, context, graphObjects)
 }
 
@@ -69,7 +71,7 @@ function drawGraph(canvas, context, graphObjects) {
 		//Height: To the bottom of the Canvas
 	  context.fillRect(nextBar, canvas.height - canvas.height*(graphObjects[i].value/scaling),100,canvas.height);
 		context.stroke();
-		//Distance between bars is defined as 100 (Bar width), times i+1 (Number of 100s to move over by), plus a bit of a gap
-		nextBar += (100*(i+1))+10;
+		//Distance between bars is defined as 100 (Bar width), plus a bit of a gap
+		nextBar += 110;
 	}
 }
