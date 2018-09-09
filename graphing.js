@@ -67,11 +67,14 @@ function drawGraph(canvas, context, graphObjects) {
 		//Y: Starts at the percentage point of the canvas equal to how much
 		//       The value is of the highest one. For example, if max is 30, then
 		//       the value 15 starts half way up the canvas.
-		//Width: Set value of 100 for now
+		//Width: Canvas Width Divided by number of objects, minus gap times number of
+    //       Elements
 		//Height: To the bottom of the Canvas
-	  context.fillRect(nextBar, canvas.height - canvas.height*(graphObjects[i].value/scaling),100,canvas.height);
+    context.fillRect(nextBar, canvas.height - canvas.height*(graphObjects[i].value/scaling),Math.floor((canvas.width/graphObjects.length)-(5*graphObjects.length)),canvas.height);
 		context.stroke();
 		//Distance between bars is defined as 100 (Bar width), plus a bit of a gap
-		nextBar += 110;
+		//nextBar += 110;
+    nextBar += Math.floor((canvas.width/graphObjects.length)+5);
+    console.log(nextBar);
 	}
 }
