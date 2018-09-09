@@ -2,23 +2,26 @@ $(document).ready(function() {
   init("body", 500, 500);
 });
 
-
-
-
 function graphingObjectClass(title, color, value) {
 	this.title = title,
 	this.color = color,
 	this.value = value
 };
 
-function graphingClass(graphType, graphingObjects){
+function graphingClass(graphType, graphingObjects, gap, legendX, legendY){
 	this.graping = graphType,
-	this.graphingObjects = graphingObjects;
+	this.graphingObjects = graphingObjects,
+  this.gap = gap;
+  this.legendX = legendX;
+  this.legendY = legendY;
 };
 
 graphingClass.prototype = {
 	graphing: "",
-	graphingObjects: ""
+	graphingObjects: "",
+  gap: 0,
+  legendX: 0,
+  legendY: 0
 };
 
 graphingObjectClass.prototype = {
@@ -40,17 +43,17 @@ function init(parentObject, width, height) {
 		var canvas = document.getElementById("gravity");
 		var context = canvas.getContext("2d");
 		var graphObjects = new Array();
-		var graph = new graphingClass("Bar", graphObjects);
+		var graph = new graphingClass("Bar", graphObjects, 5, 100, 0);
 		var objectOne = new graphingObjectClass("Test", "#FF0000", 30);
 	  var objectTwo = new graphingObjectClass("Test2","#0000FF", 15);
 		var objectThree = new graphingObjectClass("Test3","#00FF00", 60);
 		graphObjects.push(objectOne);
 		graphObjects.push(objectTwo);
 		graphObjects.push(objectThree);
-		drawGraph(canvas, context, graphObjects)
+		drawGraph(canvas, context, graphObjects, graph)
 }
 
-function drawGraph(canvas, context, graphObjects) {
+function drawGraph(canvas, context, graphObjects, graph) {
 	var maxValue = 0;
 	for (var i = 0; i < graphObjects.length; i++) {
 		if (graphObjects[i].value > maxValue) {
@@ -70,11 +73,11 @@ function drawGraph(canvas, context, graphObjects) {
 		//Width: Canvas Width Divided by number of objects, minus gap times number of
     //       Elements
 		//Height: To the bottom of the Canvas
-    context.fillRect(nextBar, canvas.height - canvas.height*(graphObjects[i].value/scaling),Math.floor((canvas.width/graphObjects.length)-(5*graphObjects.length)),canvas.height);
+    context.fillRect(nextBar, canvas.height - canvas.height*(graphObjects[i].value/scaling),Math.floor((canvas.width/graphObjects.length)-(graph.gap*graphObjects.length)),canvas.height);
 		context.stroke();
-		//Distance between bars is defined as 100 (Bar width), plus a bit of a gap
-		//nextBar += 110;
-    nextBar += Math.floor((canvas.width/graphObjects.length)+5);
-    console.log(nextBar);
+    nextBar += Math.floor((canvas.width/graphObjects.length)+graph.gap);
+    context.font = "30px Arial";
+    context.fillText(graphObjects[i].title,10+graph.legendX,((i+1)*25)+graph.legendY);
+    console.log(graph.legendX);
 	}
 }
